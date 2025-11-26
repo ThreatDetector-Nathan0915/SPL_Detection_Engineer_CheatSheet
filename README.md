@@ -1,3 +1,23 @@
+# TL;DR Summary
+This repository contains a structured summary of my personal knowledge and experience in Splunk detection logic. It includes generic Splunk SPL examples, regex demonstrations, and detection engineering techniques intended for education, skill development, and community knowledge-sharing. All examples are platform-agnostic and do not reference any internal, confidential, or proprietary data from past employers.
+
+A small set of test logs is included in the `/logs` folder for users who want to practice SPL searches and validate techniques in a safe environment. These logs were artificially generated and contain no real-world or customer data.
+
+The purpose of this repository is to demonstrate detection logic concepts, reinforce learning, and serve as a reference for both myself and others in the cybersecurity community.
+
+---
+## Legal & Ethical Disclaimer
+
+All content in this repository represents my own personal thoughts, interpretations, and educational summaries related to Splunk SPL and general detection engineering concepts. This repository does **not** contain, reference, or replicate any proprietary information, internal detection logic, intellectual property, architecture, log data, or security techniques belonging to any past, present, or future employer.
+
+All SPL examples, syntax explanations, and command references are derived from publicly available resources such as the official Splunk documentation.  
+All sample logs and test data included in this repository were artificially generated through AI prompts and do not represent real systems, environments, or customer information.
+
+This repository is intended strictly for educational, non-commercial, and community-driven knowledge sharing. Any resemblance to real environments is coincidental and unintentional.
+---
+
+
+
 # rename
 **Description:** Renaming a field will transform the field name into the defined name. This will transform the field’s name, unlike an eval of a field into a new field, which will leave the original and create a new one. This will rename the original, and for the rest of the search you will need to use the new name.
 
