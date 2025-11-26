@@ -18,15 +18,16 @@ Example Usage 2 rename:
 
 ---
 # regex
-**Description:** Defines a pattern that should match a regular expression. Regular expresion is very powerfull, and can be used to precilisly match patterns that otherwise would be impossible to express in regular splunk search terms.
+**Description:** Defines a pattern that should match a regular expression. Regular expression is very powerful and can be used to precisely match patterns that otherwise would be impossible to express in regular Splunk search terms.
 
-**Uses:** Lets say I am looking for a malicous commandline where the threat actor will be employing obfuscation. A normal splunk search you can define a field=x, field=*x* or you can search just for x (via token) but lets say x will pop up with y, and there are extra characters sprinkled in that break the token for splunk. Also puting wild cards between tokens in Splunk results in terrible search performance example field=*x*y this will aslo return inconsistent results. Never fear regex is here :)
+**Uses:** Let’s say I am looking for a malicious command line where the threat actor is employing obfuscation. In a normal Splunk search, you can define a field=x, field=*x*, or you can search just for x (via token). But let’s say x appears with y, and there are extra characters sprinkled in that break the token for Splunk. Also, putting wildcards between tokens in Splunk results in terrible search performance—example: field=*x*y. This will also return inconsistent results. Never fear, regex is here :)
 
 Example Usage (this will search for string 1 and 2 sequentially regex is a massive area that I will break down in a different guide):
 ```spl
 (greater splunk search)
 | regex field="(?is)string1.*string2"
 ```
+![Regex Example](commandline_example.png)
 ---
 # rex
 **Description:** The rex is one of my all time personal top favorites. You can use it to extract value from a field into a new field or several new fields. This can be very usefull if for instance you are creating a detection and the regex match is protially in mulple fields. With a standard regex you can only match on one field but with rex you could extract muliple vlaues into a single field, and match of that one field working around the regex limiation with rex. Rex is also field aware so if a field has multple values you would like to become fields of thier own you can write the regex to account for that.
