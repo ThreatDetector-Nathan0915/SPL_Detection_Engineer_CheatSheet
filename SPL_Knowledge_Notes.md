@@ -52,9 +52,19 @@ Example 2 (Using one rex to extract multple fields from a single string)
 
 ---
 # rex mode=sed
-**Description:**
-**Uses:**
+**Description:** `rex mode=sed` is also very powerful and can be used to transform field results by replacing, altering, or removing characters. Unlike a normal `rex` extraction, which creates new fields, `mode=sed` modifies the existing field in place. This makes it extremely useful for cleanup, normalization, and preparing fields for correlation.
+
+**Uses:** Let’s say you have a field you are trying to correlate with another field from a different index. The values are *almost* identical, but there is inconsistent or odd formatting mixed in—extra brackets, prefixes, suffixes, hidden characters, or delimiter differences. These small inconsistencies can completely break joins, lookups, or correlation logic. Using `rex mode=sed`, you can rewrite the field by removing or standardizing the problematic characters so the two values match cleanly.
+
+See the user example below.
 **Example Usage:**
+```spl
+(great search)
+| rex mode=sed field=user_email "s/@.+//g"
+```
+![mode=sed uncorelated](mode_sed1.png)
+![mode=sed corelated](mode_sed2.png)
+
 ---
 # where
 **Description:**
