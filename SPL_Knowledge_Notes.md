@@ -67,9 +67,29 @@ See the user example below.
 
 ---
 # where
-**Description:**
-**Uses:**
-**Example Usage:**
+**Description:** `where` is very useful for defining a condition that must evaluate as true for a result to be returned. Unlike basic search terms, which match raw text or field values, `where` evaluates logical expressions, comparisons, and calculations—giving you much more control over filtering.
+
+**Uses:** `where` can be used in correlation search logic, post-aggregation filtering, numerical comparisons, and evaluating mathematical expressions. It allows you to write conditional logic such as thresholds, ratios, time differences, or multi-field comparisons that cannot be expressed through standard search syntax. See examples below.
+
+**Example Usage:** (where certian field is equal to discrete value) 
+```
+spl
+| where executable=="powershell.exe" AND payload=="payload5.ps1"
+```
+![where discrete value 1 and 2](where1.png)
+
+**Example Usage2:** (where math, distance is greater than 200 miles) 
+```spl
+| where distance_from_work>200
+```
+![where math](where2.png)
+**Example Usage2:** (where math, logical expression) 
+```
+spl
+| where isnotnull(login_time)
+```
+![where expression](where3.png)
+
 ---
 # lookup
 **Description:**
