@@ -150,9 +150,33 @@ spl
 
 ---
 # isnull/isnotnull
-**Description:**
-**Uses:**
-**Example Usage:**
+**Description:** `isnull` and `isnotnull` are used to check whether a field contains a value or is empty. They are commonly used within `where` clauses to add logical filtering that standard search syntax cannot express. While you *can* check for non-null values using a basic search filter like `| search field=*`, the `isnull` and `isnotnull` functions provide more precise control when building conditional logic, especially after field extractions or aggregations.
+
+**Uses:** These functions are extremely helpful when you only want results where a particular extracted field is present—or where it is missing. For example, if you extract indicators from scriptcontent or commandline fields, you may only want events where the extraction succeeded (`isnotnull`). Conversely, there are times when you want to return only events where no match occurred. A common case is CIDR/lookup filtering: if you compare an IP address against a list or subnet and no match is found, `isnull` lets you return only the values that fall *outside* the expected ranges. This is especially useful in negative-matching detections, enrichment lookups, and correlation logic.
+ 
+**Example Usage: isnotnull script/command**
+```spl
+| inputlookup mixed_logs.csv ```pull test logs```
+| rex field=commandline "(?i)(?<indicator>downloadstring)" ```extracted bad indicator out of commandline, by matching pattern```
+| rex field=scriptcontent "(?i)(?<indicator>downloadstring)"```extracted bad indicator out of scriptcontent, by matching pattern```
+| where isnotnull(indicator) ```return only results where indidcator had value```
+| table indicator scriptcontent commandline ```table out the indocator that had value with the two parsed fields```
+```
+![isnotnull logic](isnotnull.png)
+
+**Example Usage: isnull cidr negation**
+```spl
+| inputlookup waf_logs.csv ```pull waf logs```
+| lookup cidr_lookup cidr as src_ip OUTPUT cidr ```match IPs against negation ranges```
+| where isnull(cidr) ```negate results that matched a range of approved ISPs```
+```
+Note CIDR Negations require a lookup definition in Splunk Example:
+![CIDR Defintion](cidr_lookup_setup.png)
+Results without Negations:
+![No CIDR Negation for Google/CloudFlare ranges](no_cidr_negation.png)
+![isnull cidr negation, only malicous traffic remains](cidr_negation_google_cloudflare.png)
+
+
 ---
 # index_earliest
 **Description:**

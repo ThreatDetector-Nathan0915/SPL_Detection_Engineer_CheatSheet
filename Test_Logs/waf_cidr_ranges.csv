@@ -1,0 +1,7 @@
+cidr,provider,src_country,description
+104.16.0.0/12,Cloudflare,US,Cloudflare edge network (sample range)
+172.64.0.0/13,Cloudflare,US,Cloudflare edge network (sample range)
+131.0.72.0/22,Cloudflare,US,Cloudflare edge network (sample range)
+34.64.0.0/10,Google Cloud,US,Google Cloud Platform (sample range)
+35.184.0.0/13,Google Cloud,US,Google Cloud Platform (sample range)
+35.192.0.0/14,Google Cloud,US,Google Cloud Platform (sample range)
