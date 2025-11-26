@@ -30,7 +30,7 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 ![Regex Example](commandline_example.png)
 ---
 # rex
-**Description:** The rex is one of my all time personal top favorites. You can use it to extract value from a field into a new field or several new fields. This can be very usefull if for instance you are creating a detection and the regex match is protially in mulple fields. With a standard regex you can only match on one field but with rex you could extract muliple vlaues into a single field, and match of that one field working around the regex limiation with rex. Rex is also field aware so if a field has multple values you would like to become fields of thier own you can write the regex to account for that.
+**Description:** The rex is one of my all-time personal favorites. You can use it to extract a value from a field into a new field—or several new fields. This can be very useful if, for instance, you are creating a detection and the regex match has potential to be in multiple fields. With a standard regex, you can only match on one field, but with rex you can extract multiple values into a single field and filter off that one field, working around the regex limitation. Rex is also field-aware, so if a field has multiple values you would like to become fields of their own, you can write the regex to account for that.
 
 **Uses:**
 Example (Usage matching on multple fields returning only positive hits):
@@ -41,6 +41,15 @@ Example (Usage matching on multple fields returning only positive hits):
 | rex field=scriptcontent "(?<IOAs>bad_pattern1.*badpattern2)"
 | where isnotnull(IOAs)
 ```
+![Rex Example](rex_example.png)
+
+Example 2 (Using one rex to extract multple fields from a single string)
+```spl
+| rex field=commandline "(?i)(?<executable>^[^ ]+).*\/(?<payload>.+\..{3})"
+```
+![Rex Field Extraction Example](rex_field_extraction.png)
+
+
 ---
 # rex mode=sed
 **Description:**
