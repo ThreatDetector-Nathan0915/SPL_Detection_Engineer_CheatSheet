@@ -99,7 +99,7 @@ spl
 | where distance_from_work>200 ```logical expression saying that the distance_from_work field must have avalue greater than 200 to return results```
 ```
 ![where math](where2.png)
-**Example Usage2:** (where math, logical expression) 
+**Example Usage2:** (where, logical expression) 
 ```spl
 | makeresults | eval user_email="john.borman@greatcompany.com", login_location="badplace", distance_from_work="230" create a log without a login_time value```
 | append [|makeresults | eval user_name="john.borman", login_time="tuesday",  distance_from_work="60"] ```create a log with a a login_time value```
