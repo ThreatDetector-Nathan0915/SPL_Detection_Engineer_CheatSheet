@@ -84,8 +84,7 @@ spl
 ```
 ![where math](where2.png)
 **Example Usage2:** (where math, logical expression) 
-```
-spl
+```spl
 | where isnotnull(login_time)
 ```
 ![where expression](where3.png)
