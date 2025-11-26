@@ -14,6 +14,8 @@ Example Usage 2 rename:
 (greater splunk search)
 | rename user as UID, username as UID
 ```
+![Rename Example 2](rename_example2.png)
+
 ---
 # regex
 **Description:** Defines a pattern that should match a regular expression. Regular expresion is very powerfull, and can be used to precilisly match patterns that otherwise would be impossible to express in regular splunk search terms.
