@@ -1,4 +1,4 @@
-# rename
+rename
 **Description:** Renaming a field will transform the field name into the defined name. This will transform the fields name unlike an eval of a field into a new field which will leave the orginal and create a new one. This will rename the orginal and for the rest of the search you will need to use the new name.
 
 **Uses:** Say you have a query that is taking fields from multiple indexes. And in those fields there is the same value, which you are trying to correlate. However, the field names are differnt, example  user, UID, username, ect you can use a rename to rename the fields so they can be correlated together. This is very helpfull for field normalization.
@@ -14,7 +14,7 @@ Example Usage 2 rename:
 | rename user as UID, username as UID
 ```
 ---
-## regex
+regex
 **Description:** Defines a pattern that should match a regular expression. Regular expresion is very powerfull, and can be used to precilisly match patterns that otherwise would be impossible to express in regular splunk search terms.
 
 **Uses:** Lets say I am looking for a malicous commandline where the threat actor will be employing obfuscation. A normal splunk search you can define a field=x, field=*x* or you can search just for x (via token) but lets say x will pop up with y, and there are extra characters sprinkled in that break the token for splunk. Also puting wild cards between tokens in Splunk results in terrible search performance example field=*x*y this will aslo return inconsistent results. Never fear regex is here :)
@@ -25,7 +25,7 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 | regex field="(?is)string1.*string2"
 ```
 ---
-### rex
+rex
 **Description:** The rex is one of my all time personal top favorites. You can use it to extract value from a field into a new field or several new fields. This can be very usefull if for instance you are creating a detection and the regex match is protially in mulple fields. With a standard regex you can only match on one field but with rex you could extract muliple vlaues into a single field, and match of that one field working around the regex limiation with rex. Rex is also field aware so if a field has multple values you would like to become fields of thier own you can write the regex to account for that.
 
 **Uses:**
@@ -38,37 +38,37 @@ Example (Usage matching on multple fields returning only positive hits):
 | where isnotnull(IOAs)
 ```
 ---
-#### rex mode=sed
+rex mode=sed
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-###### where
+where
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-# lookup
+lookup
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-###### isnull/isnotnull
+isnull/isnotnull
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-###### index_earliest
+index_earliest
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-###### dc
+dc
 **Description:**
 **Uses:**
 **Example Usage:**
 ---
-###### stats
+stats
 **Description:**
 **Uses:**
 **Example Usage:**
