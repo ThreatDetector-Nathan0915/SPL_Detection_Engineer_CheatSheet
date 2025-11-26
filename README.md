@@ -14,6 +14,8 @@ All SPL examples, syntax explanations, and command references are derived from p
 All sample logs and test data included in this repository were artificially generated through AI prompts and do not represent real systems, environments, or customer information.
 
 This repository is intended strictly for educational, non-commercial, and community-driven knowledge sharing. Any resemblance to real environments is coincidental and unintentional.
+
+
 *All screenshots shown were taken from a personal lab environment on my own laptop and do not represent any employer or real production systems.*
 
 ---
