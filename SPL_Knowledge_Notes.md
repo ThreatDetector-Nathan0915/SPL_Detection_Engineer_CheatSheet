@@ -1,7 +1,7 @@
 # rename
-**Description:** Renaming a field will transform the field name into the defined name. This will transform the fields name unlike an eval of a field into a new field which will leave the orginal and create a new one. This will rename the orginal and for the rest of the search you will need to use the new name.
+**Description:** Renaming a field will transform the field name into the defined name. This will transform the field’s name, unlike an eval of a field into a new field, which will leave the original and create a new one. This will rename the original, and for the rest of the search you will need to use the new name.
 
-**Uses:** Say you have a query that is taking fields from multiple indexes. And in those fields there is the same value, which you are trying to correlate. However, the field names are differnt, example  user, UID, username, ect you can use a rename to rename the fields so they can be correlated together. This is very helpfull for field normalization.
+**Uses:** Say you have a query that is taking fields from multiple indexes, and in those fields there is the same value you are trying to correlate. However, the field names are different—example: user, UID, username, etc. You can use a rename to rename the fields so they can be correlated together. This is very helpful for field normalization.
 
 Example Usage 1 rename:
 ```spl
