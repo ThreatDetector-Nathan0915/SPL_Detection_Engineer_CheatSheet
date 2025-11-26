@@ -1,0 +1,51 @@
+user,parent_process,process,commandline
+svc_backup,services.exe,powershell.exe,powershell.exe Get-NetFirewallRule -DisplayName *RDP*
+jdoe,explorer.exe,powershell.exe,powershell.exe New-Item C:\temp\newfolder -ItemType Directory
+analyst,cmd.exe,powershell.exe,powershell.exe Get-ScheduledTask
+jdoe,winlogon.exe,powershell.exe,powershell.exe Set-ADUser -Identity jdoe -Department 'IT'
+jdoe,winlogon.exe,powershell.exe,powershell.exe Stop-Job -Id 1
+jdoe,cmd.exe,powershell.exe,powershell.exe Restart-Service -Name wuauserv
+analyst,winlogon.exe,powershell.exe,powershell.exe Get-Content C:\logs\debug.log
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Get-WmiObject -Class Win32_OperatingSystem
+analyst,winlogon.exe,powershell.exe,powershell.exe New-Item C:\temp\newfolder -ItemType Directory
+svc_backup,services.exe,powershell.exe,powershell.exe Get-ChildItem C:\Windows\System32
+itadmin,winlogon.exe,powershell.exe,powershell.exe Get-EventLog -LogName System -Newest 20
+jdoe,cmd.exe,powershell.exe,powershell.exe Remove-Item C:\temp\old.txt -Force
+itadmin,services.exe,powershell.exe,powershell.exe ConvertTo-Json -Compress
+svc_backup,explorer.exe,powershell.exe,powershell.exe Get-ADComputer -Identity PC-123
+itadmin,services.exe,powershell.exe,powershell.exe Invoke-WebRequest http://example.com/update.ps1 -OutFile update.ps1
+analyst,winlogon.exe,powershell.exe,powershell.exe Stop-Job -Id 1
+itadmin,winlogon.exe,powershell.exe,powershell.exe Get-ScheduledTask
+itadmin,winlogon.exe,powershell.exe,powershell.exe Set-Content C:\temp\config.txt -Value 'enabled=true'
+jdoe,explorer.exe,powershell.exe,powershell.exe Set-Item HKCU:\Software\Test Value123
+svc_backup,services.exe,powershell.exe,powershell.exe Set-ADUser -Identity jdoe -Department 'IT'
+itadmin,explorer.exe,powershell.exe,powershell.exe Test-Connection 8.8.8.8 -Count 2
+jdoe,explorer.exe,powershell.exe,powershell.exe Invoke-WebRequest http://example.com/update.ps1 -OutFile update.ps1
+analyst,services.exe,powershell.exe,powershell.exe Get-NetIPConfiguration
+itadmin,winlogon.exe,powershell.exe,powershell.exe Set-ADUser -Identity jdoe -Department 'IT'
+analyst,cmd.exe,powershell.exe,powershell.exe Start-Service -Name Spooler
+itadmin,cmd.exe,powershell.exe,powershell.exe Get-Item HKLM:\Software\Microsoft
+analyst,services.exe,powershell.exe,powershell.exe Restart-Service -Name wuauserv
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Get-Job
+svc_backup,explorer.exe,powershell.exe,powershell.exe Get-CimInstance -ClassName Win32_ComputerSystem
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Invoke-WebRequest http://example.com/update.ps1 -OutFile update.ps1
+itadmin,cmd.exe,powershell.exe,powershell.exe Stop-Transcript
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Get-CimInstance -ClassName Win32_ComputerSystem
+analyst,winlogon.exe,powershell.exe,powershell.exe Start-Service -Name Spooler
+jdoe,explorer.exe,powershell.exe,powershell.exe New-ADUser -Name 'Bob Test' -SamAccountName btest
+itadmin,cmd.exe,powershell.exe,powershell.exe Restart-Service -Name wuauserv
+jdoe,explorer.exe,powershell.exe,powershell.exe Remove-Item C:\temp\old.txt -Force
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Set-Content C:\temp\config.txt -Value 'enabled=true'
+analyst,explorer.exe,powershell.exe,powershell.exe Get-ADComputer -Identity PC-123
+jdoe,explorer.exe,powershell.exe,powershell.exe Get-Service -Name WinDefend
+analyst,cmd.exe,powershell.exe,powershell.exe Get-NetIPConfiguration
+itadmin,explorer.exe,powershell.exe,powershell.exe Stop-Service -Name BITS
+svc_backup,explorer.exe,powershell.exe,powershell.exe Get-Content C:\logs\debug.log
+itadmin,cmd.exe,powershell.exe,powershell.exe Get-NetFirewallRule -DisplayName *RDP*
+jdoe,winlogon.exe,powershell.exe,powershell.exe Get-WmiObject -Class Win32_OperatingSystem
+itadmin,explorer.exe,powershell.exe,powershell.exe Stop-Transcript
+itadmin,services.exe,powershell.exe,powershell.exe New-Item C:\temp\newfolder -ItemType Directory
+svc_backup,winlogon.exe,powershell.exe,powershell.exe Get-CimInstance -ClassName Win32_ComputerSystem
+svc_backup,explorer.exe,powershell.exe,powershell.exe Get-ADComputer -Identity PC-123
+svc_backup,cmd.exe,powershell.exe,powershell.exe Get-NetIPConfiguration
+svc_backup,explorer.exe,powershell.exe,powershell.exe Start-Transcript C:\logs\session.log

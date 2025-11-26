@@ -1,0 +1,52 @@
+cmdlet,description
+Get-Process,Retrieves a list of active processes running on the system.
+Get-Service,Gets the status of services on a local or remote machine.
+Start-Service,Starts a stopped Windows service.
+Stop-Service,Stops a running Windows service.
+Restart-Service,Restarts a specified service.
+Get-EventLog,Retrieves Windows event logs from local or remote systems.
+Clear-EventLog,Clears entries from an event log.
+Get-ChildItem,"Lists files and directories (alias: ls, dir)."
+Copy-Item,Copies files or directories to a new location.
+Move-Item,Moves files or directories to a new location.
+Remove-Item,Deletes files or directories.
+Get-Content,Reads content from a file.
+Set-Content,Writes or replaces content in a file.
+Add-Content,Appends content to a file.
+Invoke-WebRequest,Downloads content from a web endpoint.
+Invoke-RestMethod,Sends HTTP/REST requests and parses JSON responses.
+Test-Connection,Sends ICMP echo pings to test network connectivity.
+Get-WmiObject,Queries WMI objects (deprecated in favor of CIM).
+Get-CimInstance,Retrieves CIM/WMI information.
+New-Item,"Creates a new file, folder, or registry entry."
+Set-Item,"Modifies an existing item (file, registry key, etc.)."
+Get-Item,Retrieves an item from a specified location.
+Get-ADUser,Retrieves Active Directory user accounts.
+Get-ADComputer,Retrieves Active Directory computer accounts.
+New-ADUser,Creates a new Active Directory user.
+Set-ADUser,Modifies an AD user account.
+Get-NetIPConfiguration,Displays network adapter configuration.
+Get-NetFirewallRule,Retrieves Windows firewall rules.
+New-NetFirewallRule,Creates a new firewall rule.
+Remove-NetFirewallRule,Deletes a firewall rule.
+Get-ScheduledTask,Retrieves scheduled tasks.
+Register-ScheduledTask,Creates a scheduled task.
+Unregister-ScheduledTask,Deletes a scheduled task.
+Start-Job,Starts a PowerShell background job.
+Get-Job,Retrieves background job status.
+Receive-Job,Gets the results of a background job.
+Stop-Job,Stops a running job.
+Get-Module,Lists installed PowerShell modules.
+Import-Module,Imports a module for use.
+Get-Command,"Lists available cmdlets, functions, and aliases."
+Get-Help,Displays help information for cmdlets.
+Export-Csv,Writes objects to a CSV file.
+Import-Csv,Reads objects from a CSV file.
+ConvertTo-Json,Converts an object to JSON format.
+ConvertFrom-Json,Converts JSON into PowerShell objects.
+Start-Transcript,Starts logging a PowerShell session.
+Stop-Transcript,Stops logging the session.
+Set-ExecutionPolicy,Changes PowerShell script execution restrictions.
+Get-HotFix,Retrieves installed Windows updates.
+Get-LocalUser,Retrieves local user accounts.
+New-LocalUser,Creates a new local user account.

