@@ -20,8 +20,6 @@ This repository is intended strictly for educational, non-commercial, and commun
 
 ---
 
-
-
 # rename
 **Description:** Renaming a field will transform the field name into the defined name. This will transform the field’s name, unlike an eval of a field into a new field, which will leave the original and create a new one. This will rename the original, and for the rest of the search you will need to use the new name.
 
@@ -32,7 +30,7 @@ Example Usage 1 rename:
 | inputlookup gerneric_logs.csv ```pull in generic logs``` 
 | rename commandline as blah ```just rename commandline as blah```
 | table * ``` table all fields```
-```
+``` 
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
@@ -95,7 +93,9 @@ See the user example below.
 | eval user=coalesce(user_email,user_name) ```combine the normalized fields into the user field```
 | stats values(login_time) as login_time values(login_location) as login_location by user _time ```return the correlated values by correlated username and time```
 ```
+Not normalized/uncorelated:
 ![mode=sed uncorelated](mode_sed1.png)
+Normalized and Corelated
 ![mode=sed corelated](mode_sed2.png)
 
 ---
@@ -144,7 +144,9 @@ spl
 | lookup cmdlet.csv cmdlet as command_let ```lookup that cmdlet against a list with cmdlet/description```
 | table * ```table all results```
 ```
+cmdlet's not enriched
 ![cmdlet not enriched](cmdlet1.png)
+cmdlet's enriched
 ![cmdlet enriched](cmdlet2.png)
 
 
