@@ -8,6 +8,7 @@ Example Usage 1 rename:
 (greater splunk search)
 | rename user as UID
 ```
+![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
 (greater splunk search)
