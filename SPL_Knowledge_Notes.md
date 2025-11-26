@@ -6,7 +6,7 @@
 Example Usage 1 rename:
 ```spl
 (greater splunk search)
-| rename user as UID
+| rename user as UID ```renamed user to uid```
 ```
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
@@ -36,10 +36,10 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 Example (Usage matching on multple fields returning only positive hits):
 ```spl
 (greater splunk search)
-| rex field=commandline "(?<IOAs>bad_pattern1.*badpattern2)"
-| rex field=commandhistory "(?<IOAs>bad_pattern1.*badpattern2)"
-| rex field=scriptcontent "(?<IOAs>bad_pattern1.*badpattern2)"
-| where isnotnull(IOAs)
+| rex field=commandline "(?<indicator>bad_pattern1.*badpattern2)"
+| rex field=commandhistory "(?<indicator>bad_pattern1.*badpattern2)"
+| rex field=scriptcontent "(?<indicator>bad_pattern1.*badpattern2)"
+| where isnotnull(indicator)
 ```
 ![Rex Example](rex_example.png)
 
