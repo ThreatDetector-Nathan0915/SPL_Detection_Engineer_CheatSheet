@@ -5,12 +5,16 @@
 
 Example Usage 1 rename:
 ```spl
-| rename user as user_name ```renamed user to user_name```
+| inputlookup gerneric_logs.csv ```pull in generic logs``` 
+| rename commandline as blah ```just rename commandline as blah```
+| table * ``` table all fields```
 ```
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
-| rename user as user_name, username as user_name ```renamed user to user_name and username to user_name
+| inputlookup gerneric_logs.csv ```pull sample data```
+| rename commandline as commands, dest_ip as destination_ip ```rename commandline as commands and dest_ip as destination_ip```
+| table commands destination_ip ```table only those two fields```
 ```
 ![Rename Example 2](rename_example2.png)
 
@@ -22,7 +26,9 @@ Example Usage 2 rename:
 
 Example Usage (this will search for string 1 and 2 sequentially regex is a massive area that I will break down in a different guide):
 ```spl
-| regex field="(?is)string1.*string2" ```regex a field for string1 followed by string2```
+| inputlookup gerneric_logs.csv ```pull in generic logs```
+| regex commandline="(?is)cmd.*whoami" ```regex a field for string1 followed by string2```
+| table commandline ```only table out commandline```
 ```
 ![Regex Example](commandline_example.png)
 ---
@@ -32,16 +38,20 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 **Uses:**
 Example (Usage matching on multple fields returning only positive hits):
 ```spl
-| rex field=commandline "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of commandline, by matching badpattern1 followed by badpattern2```
-| rex field=commandhistory "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of commandhistory, by matching badpattern1 followed by badpattern2```
-| rex field=scriptcontent "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of scriptcontent, by matching badpattern1 followed by badpattern2```
+| inputlookup mixed_logs.csv
+| rex field=commandline "(?i)(?<indicator>downloadstring)" ```extracted bad indicator out of commandline, by matching pattern```
+| rex field=scriptcontent "(?i)(?<indicator>downloadstring)"```extracted bad indicator out of scriptcontent, by matching pattern```
 | where isnotnull(indicator) ```return only results where indidcator had value```
 ```
 ![Rex Example](rex_example.png)
 
 Example 2 (Using one rex to extract multple fields from a single string)
 ```spl
+| inputlookup mixed_logs.csv ```pull in sample logs```
 | rex field=commandline "(?i)(?<executable>^[^ ]+).*\/(?<payload>.+\..{3})" ```extracted the executable and the payload out of the commandline field```
+| regex commandline="(?is)downloadstring" ```regex match on commandline logs that had downloadstring```
+| head 5 ```only return first 5 events```
+| table commandline executable payload ```table out only commandline and two created fields```
 ```
 ![Rex Field Extraction Example](rex_field_extraction.png)
 
@@ -55,7 +65,11 @@ Example 2 (Using one rex to extract multple fields from a single string)
 See the user example below.
 **Example Usage:**
 ```spl
+| makeresults | eval user_email="john.borman@greatcompany.com", login_location="badplace" ```create logs for a user_email and login locations```
+| append [|makeresults | eval user_name="john.borman", login_time="tuesday"] ``` create more logs for a username log with a login time```
 | rex mode=sed field=user_email "s/@.+//g" ```replaced everything from the @ sign in an email to after that with no value```
+| eval user=coalesce(user_email,user_name) ```combine the normalized fields into the user field```
+| stats values(login_time) as login_time values(login_location) as login_location by user _time ```return the correlated values by correlated username and time```
 ```
 ![mode=sed uncorelated](mode_sed1.png)
 ![mode=sed corelated](mode_sed2.png)
@@ -69,17 +83,26 @@ See the user example below.
 **Example Usage:** (where certian field is equal to discrete value) 
 ```
 spl
+| inputlookup mixed_logs.csv ```pull test data```
+| rex field=commandline "(?i)(?<executable>^[^ ]+).*\/(?<payload>.+\..{3})" extract the payload and the executable out of the commandline```
+| regex commandline="(?is)downloadstring" ```regex match commandline for only a downloadstring```
+| head 5 ```return only first 5 results```
+| table commandline executable payload ``` table out commandline two extracted fields```
 | where executable=="powershell.exe" AND payload=="payload5.ps1" ```logical expression where excutable and payload must be equal to exact values```
 ```
 ![where discrete value 1 and 2](where1.png)
 
 **Example Usage2:** (where math, distance is greater than 200 miles) 
 ```spl
+| makeresults | eval user_email="john.borman@greatcompany.com", login_location="badplace", distance_from_work="230" ```create logs for a user 230 miles from work```
+| append [|makeresults | eval user_name="john.borman", login_time="tuesday",  distance_from_work="60"] ``` create another log for a user only 60 miles from work```
 | where distance_from_work>200 ```logical expression saying that the distance_from_work field must have avalue greater than 200 to return results```
 ```
 ![where math](where2.png)
 **Example Usage2:** (where math, logical expression) 
 ```spl
+| makeresults | eval user_email="john.borman@greatcompany.com", login_location="badplace", distance_from_work="230" create a log without a login_time value```
+| append [|makeresults | eval user_name="john.borman", login_time="tuesday",  distance_from_work="60"] ```create a log with a a login_time value```
 | where isnotnull(login_time) ```logical expression saying that the login_time field must contain a non null value```
 ```
 ![where expression](where3.png)
