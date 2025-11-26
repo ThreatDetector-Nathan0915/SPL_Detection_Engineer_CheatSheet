@@ -90,8 +90,17 @@ spl
 
 **Uses:** `lookup` can be used to correlate fields across different indexes, normalize inconsistent field names, add enrichment values from assets or identity stores, or map raw values to standardized categories. It is commonly used to match IP addresses to CIDR ranges, map usernames to departments, attach threat intelligence to IPs or domains, or supplement detection logic with static reference tables. This enables stronger correlation logic, better context, and more accurate detection outcomes.
 
-
 **Example Usage:**
+```spl
+| inputlookup cmdlet_log.csv ```get test logs```
+| rex field=commandline "(?i)powershell\.exe (?<command_let>[^ ]+)" ```extract cmdlet from the logs```
+| lookup cmdlet.csv cmdlet as command_let ```lookup that cmdlet against a list with cmdlet/description```
+| table * ```table all results```
+```
+![cmdlet not enriched](cmdlet1.png)
+![cmdlet enriched](cmdlet2.png)
+
+
 ---
 # isnull/isnotnull
 **Description:**
