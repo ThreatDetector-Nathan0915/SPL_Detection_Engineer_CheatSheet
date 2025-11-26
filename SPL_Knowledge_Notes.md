@@ -5,12 +5,12 @@
 
 Example Usage 1 rename:
 ```spl
-| rename user as UID ```renamed user to uid```
+| rename user as user_name ```renamed user to user_name```
 ```
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
-| rename user as UID, username as UID ```renamed user to uid and username to uid
+| rename user as user_name, username as user_name ```renamed user to user_name and username to user_name
 ```
 ![Rename Example 2](rename_example2.png)
 
