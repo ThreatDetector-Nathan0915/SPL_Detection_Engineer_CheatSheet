@@ -172,8 +172,9 @@ spl
 ```
 Note CIDR Negations require a lookup definition in Splunk Example:
 ![CIDR Defintion](cidr_lookup_setup.png)
-Results without Negations:
+Results without Negations for Google/CloudFlare ranges:
 ![No CIDR Negation for Google/CloudFlare ranges](no_cidr_negation.png)
+Results with negation, only malicous traffic remains
 ![isnull cidr negation, only malicous traffic remains](cidr_negation_google_cloudflare.png)
 
 
