@@ -5,14 +5,12 @@
 
 Example Usage 1 rename:
 ```spl
-(greater splunk search)
 | rename user as UID ```renamed user to uid```
 ```
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
-(greater splunk search)
-| rename user as UID, username as UID
+| rename user as UID, username as UID ```renamed user to uid and username to uid
 ```
 ![Rename Example 2](rename_example2.png)
 
@@ -24,8 +22,7 @@ Example Usage 2 rename:
 
 Example Usage (this will search for string 1 and 2 sequentially regex is a massive area that I will break down in a different guide):
 ```spl
-(greater splunk search)
-| regex field="(?is)string1.*string2"
+| regex field="(?is)string1.*string2" ```regex a field for string1 followed by string2```
 ```
 ![Regex Example](commandline_example.png)
 ---
@@ -35,17 +32,16 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 **Uses:**
 Example (Usage matching on multple fields returning only positive hits):
 ```spl
-(greater splunk search)
-| rex field=commandline "(?<indicator>bad_pattern1.*badpattern2)"
-| rex field=commandhistory "(?<indicator>bad_pattern1.*badpattern2)"
-| rex field=scriptcontent "(?<indicator>bad_pattern1.*badpattern2)"
-| where isnotnull(indicator)
+| rex field=commandline "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of commandline, by matching badpattern1 followed by badpattern2```
+| rex field=commandhistory "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of commandhistory, by matching badpattern1 followed by badpattern2```
+| rex field=scriptcontent "(?<indicator>bad_pattern1.*badpattern2)" ```extracted bad indicator out of scriptcontent, by matching badpattern1 followed by badpattern2```
+| where isnotnull(indicator) ```return only results where indidcator had value```
 ```
 ![Rex Example](rex_example.png)
 
 Example 2 (Using one rex to extract multple fields from a single string)
 ```spl
-| rex field=commandline "(?i)(?<executable>^[^ ]+).*\/(?<payload>.+\..{3})"
+| rex field=commandline "(?i)(?<executable>^[^ ]+).*\/(?<payload>.+\..{3})" ```extracted the executable and the payload out of the commandline field```
 ```
 ![Rex Field Extraction Example](rex_field_extraction.png)
 
@@ -59,8 +55,7 @@ Example 2 (Using one rex to extract multple fields from a single string)
 See the user example below.
 **Example Usage:**
 ```spl
-(great search)
-| rex mode=sed field=user_email "s/@.+//g"
+| rex mode=sed field=user_email "s/@.+//g" ```replaced everything from the @ sign in an email to after that with no value```
 ```
 ![mode=sed uncorelated](mode_sed1.png)
 ![mode=sed corelated](mode_sed2.png)
@@ -74,18 +69,18 @@ See the user example below.
 **Example Usage:** (where certian field is equal to discrete value) 
 ```
 spl
-| where executable=="powershell.exe" AND payload=="payload5.ps1"
+| where executable=="powershell.exe" AND payload=="payload5.ps1" ```logical expression where excutable and payload must be equal to exact values```
 ```
 ![where discrete value 1 and 2](where1.png)
 
 **Example Usage2:** (where math, distance is greater than 200 miles) 
 ```spl
-| where distance_from_work>200
+| where distance_from_work>200 ```logical expression saying that the distance_from_work field must have avalue greater than 200 to return results```
 ```
 ![where math](where2.png)
 **Example Usage2:** (where math, logical expression) 
 ```spl
-| where isnotnull(login_time)
+| where isnotnull(login_time) ```logical expression saying that the login_time field must contain a non null value```
 ```
 ![where expression](where3.png)
 
