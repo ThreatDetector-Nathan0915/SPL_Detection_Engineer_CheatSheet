@@ -202,7 +202,7 @@ index=cloudtrail index_earliest=-1h
 ---
 
 # dc
-**Description:** The distinct count command (dc()) is a powerful stats function in Splunk that helps with search logic by deduplicating values inside a field and returning how many unique items exist. Instead of counting every occurrence, it strips out repeats and gives you a clean uniqueness count. This is especially useful in behavioral detection work where you want to understand the variety of actions taken, not just the total volume.
+**Description:** The distinct count command `dc()` is a powerful stats function in Splunk that helps with search logic by deduplicating values inside a field and returning how many unique items exist. Instead of counting every occurrence, it strips out repeats and gives you a clean uniqueness count. This is especially useful in behavioral detection work where you want to understand the variety of actions taken, not just the total volume.
 
 **Uses:** Its use cases are broad, but a common example is detecting suspicious enumeration or discovery behavior. On their own, commands like checking account permissions, running whoami, using net.exe to enumerate AD groups, or performing a quick ICMP sweep aren’t individually alarming. However, when all of these occur together within a short window, they form a behavioral cluster that can indicate an adversary probing the environment. By using dc(commandline), you can quickly identify how many unique commands were executed, helping you distinguish between normal noise and a potentially meaningful sequence of discovery actions.
 
@@ -217,10 +217,20 @@ index=cloudtrail index_earliest=-1h
 ---
 
 # stats
-**Description:**
-**Uses:**
+**Description:** stats is one of the core transforming commands in Splunk and is used to aggregate, summarize, and analyze data across events. Instead of returning raw logs, it reshapes the dataset by computing values like counts, sums, averages, distinct counts, or custom calculations. It essentially lets you collapse thousands of events into meaningful metrics or groupings that are easier to interpret and act on. Because it restructures the data, stats becomes the backbone for dashboards, correlation searches, and most behavioral detections.
+
+**Uses:** Its uses are extremely broad—anything from counting authentication attempts, grouping by IP addresses or users, calculating average response times, identifying unique process executions, or summarizing network traffic patterns. In detection engineering, stats is typically used to cluster related activity together, look for patterns that only emerge when events are viewed as a whole, or surface anomalies such as unusually high volumes of actions by a user or host. It’s also useful for cleaning up noisy results by reducing multiple related events into a single analytic record.
+
 **Example Usage:**
+```spl
+| inputlookup cmdlet_log.csv ```get commandline logs```
+| stats values(commandline) as commandline dc(commandline) as command_count by user ```perform dc by user and command, also list off the commands via values```
+| sort - command_count ```sort the results by the count of commands, highest first```
+```
+![commandline_count logic](commandline_count.png)
+
 ---
+
 # values
 **Description:**
 **Uses:**
