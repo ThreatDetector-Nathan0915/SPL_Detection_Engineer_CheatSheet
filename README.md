@@ -6,6 +6,7 @@ A small set of test logs is included in the `/logs` folder for users who want to
 The purpose of this repository is to demonstrate detection logic concepts, reinforce learning, and serve as a reference for both myself and others in the cybersecurity community.
 
 ---
+
 ## Legal & Ethical Disclaimer
 
 All content in this repository represents my own personal thoughts, interpretations, and educational summaries related to Splunk SPL and general detection engineering concepts. This repository does **not** contain, reference, or replicate any proprietary information, internal detection logic, intellectual property, architecture, log data, or security techniques belonging to any past, present, or future employer.
@@ -41,6 +42,7 @@ Example Usage 2 rename:
 ![Rename Example 2](rename_example2.png)
 
 ---
+
 # regex
 **Description:** Defines a pattern that should match a regular expression. Regular expression is very powerful and can be used to precisely match patterns that otherwise would be impossible to express in regular Splunk search terms.
 
@@ -53,7 +55,9 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 | table commandline ```only table out commandline```
 ```
 ![Regex Example](commandline_example.png)
+
 ---
+
 # rex
 **Description:** The rex is one of my all-time personal favorites. You can use it to extract a value from a field into a new field—or several new fields. This can be very useful if, for instance, you are creating a detection and the regex match has potential to be in multiple fields. With a standard regex, you can only match on one field, but with rex you can extract multiple values into a single field and filter off that one field, working around the regex limitation. Rex is also field-aware, so if a field has multiple values you would like to become fields of their own, you can write the regex to account for that.
 
@@ -79,6 +83,7 @@ Example 2 (Using one rex to extract multple fields from a single string)
 
 
 ---
+
 # rex mode=sed
 **Description:** `rex mode=sed` is also very powerful and can be used to transform field results by replacing, altering, or removing characters. Unlike a normal `rex` extraction, which creates new fields, `mode=sed` modifies the existing field in place. This makes it extremely useful for cleanup, normalization, and preparing fields for correlation.
 
@@ -99,6 +104,7 @@ Normalized and Corelated
 ![mode=sed corelated](mode_sed2.png)
 
 ---
+
 # where
 **Description:** `where` is very useful for defining a condition that must evaluate as true for a result to be returned. Unlike basic search terms, which match raw text or field values, `where` evaluates logical expressions, comparisons, and calculations—giving you much more control over filtering.
 
@@ -132,6 +138,7 @@ spl
 ![where expression](where3.png)
 
 ---
+
 # lookup
 **Description:** `lookup` is a powerful command used to enrich events with additional context pulled from external data sources. It allows threat detection teams to attach metadata—such as user roles, asset owners, threat intelligence indicators, and standardized field mappings—to raw log data. It can also perform CIDR-based matching and ASN enrichment, which will be covered in a separate section. In short, `lookup` enhances the quality and completeness of event data by joining it with structured reference information.
 
@@ -149,8 +156,8 @@ cmdlet's not enriched
 cmdlet's enriched
 ![cmdlet enriched](cmdlet2.png)
 
-
 ---
+
 # isnull/isnotnull
 **Description:** `isnull` and `isnotnull` are used to check whether a field contains a value or is empty. They are commonly used within `where` clauses to add logical filtering that standard search syntax cannot express. While you *can* check for non-null values using a basic search filter like `| search field=*`, the `isnull` and `isnotnull` functions provide more precise control when building conditional logic, especially after field extractions or aggregations.
 
@@ -179,18 +186,36 @@ Results without Negations for Google/CloudFlare ranges:
 Results with negation, only malicous traffic remains
 ![isnull cidr negation, only malicous traffic remains](cidr_negation_google_cloudflare.png)
 
+---
+
+# index_earliest
+**Description:** index_earliest is different from a normal time filter like earliest=-7d because it doesn’t look at the event’s _time value at all. Instead, it filters events based on when they were actually written into the index using _indextime. This matters when logs arrive late or out of order. For example, if there’s a logging outage and seven days of old data suddenly floods into Splunk over a few hours, using index_earliest=-1h tells Splunk to only return events that physically hit the index within the last hour, regardless of their timestamp. It’s basically a guardrail against backfilled data so your searches don’t get polluted by stale events.
+
+**Uses:** The main use cases revolve around keeping your searches, dashboards, and detections focused on fresh data. It’s helpful when you want to ignore delayed or backfilled logs, stabilize analytics when an ingestion pipeline catches up, and prevent alert fatigue during reconnect storms from agents or batch-delivery systems. It keeps detections clean by ensuring they only evaluate events that have been indexed recently, which is critical for real-time monitoring environments like EDR, CloudTrail, WAF logs, syslog aggregators, and anything prone to ingestion delays.
+
+**Example Usage:**
+```spl
+index=cloudtrail index_earliest=-1h
+```
+![index_earliest logic](index_earliest.png)
 
 ---
-# index_earliest
-**Description:**
-**Uses:**
-**Example Usage:**
----
+
 # dc
-**Description:**
-**Uses:**
+**Description:** The distinct count command (dc()) is a powerful stats function in Splunk that helps with search logic by deduplicating values inside a field and returning how many unique items exist. Instead of counting every occurrence, it strips out repeats and gives you a clean uniqueness count. This is especially useful in behavioral detection work where you want to understand the variety of actions taken, not just the total volume.
+
+**Uses:** Its use cases are broad, but a common example is detecting suspicious enumeration or discovery behavior. On their own, commands like checking account permissions, running whoami, using net.exe to enumerate AD groups, or performing a quick ICMP sweep aren’t individually alarming. However, when all of these occur together within a short window, they form a behavioral cluster that can indicate an adversary probing the environment. By using dc(commandline), you can quickly identify how many unique commands were executed, helping you distinguish between normal noise and a potentially meaningful sequence of discovery actions.
+
 **Example Usage:**
+```spl
+| inputlookup cmdlet_log.csv ```get commandline logs```
+| stats values(commandline) as commandline dc(commandline) as command_count by user ```perform dc by user and command, also list off the commands via values```
+| sort - command_count ```sort the results by the count of commands, highest first```
+```
+![commandline_count logic](commandline_count.png)
+
 ---
+
 # stats
 **Description:**
 **Uses:**
