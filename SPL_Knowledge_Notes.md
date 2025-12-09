@@ -1,26 +1,3 @@
-# TL;DR Summary
-This repository contains a structured summary of my personal knowledge and experience in Splunk detection logic. It includes generic Splunk SPL examples, regex demonstrations, and detection engineering techniques intended for education, skill development, and community knowledge-sharing. All examples are platform-agnostic and do not reference any internal, confidential, or proprietary data from past employers.
-
-A small set of test logs is included in the `/logs` folder for users who want to practice SPL searches and validate techniques in a safe environment. These logs were artificially generated and contain no real-world or customer data.
-
-The purpose of this repository is to demonstrate detection logic concepts, reinforce learning, and serve as a reference for both myself and others in the cybersecurity community.
-
----
-
-## Legal & Ethical Disclaimer
-
-All content in this repository represents my own personal thoughts, interpretations, and educational summaries related to Splunk SPL and general detection engineering concepts. This repository does **not** contain, reference, or replicate any proprietary information, internal detection logic, intellectual property, architecture, log data, or security techniques belonging to any past, present, or future employer.
-
-All SPL examples, syntax explanations, and command references are derived from publicly available resources such as the official Splunk documentation.  
-All sample logs and test data included in this repository were artificially generated through AI prompts and do not represent real systems, environments, or customer information.
-
-This repository is intended strictly for educational, non-commercial, and community-driven knowledge sharing. Any resemblance to real environments is coincidental and unintentional.
-
-
-*All screenshots shown were taken from a personal lab environment on my own laptop and do not represent any employer or real production systems.*
-
----
-
 # rename
 **Description:** Renaming a field will transform the field name into the defined name. This will transform the field’s name, unlike an eval of a field into a new field, which will leave the original and create a new one. This will rename the original, and for the rest of the search you will need to use the new name.
 
@@ -31,7 +8,7 @@ Example Usage 1 rename:
 | inputlookup gerneric_logs.csv ```pull in generic logs``` 
 | rename commandline as blah ```just rename commandline as blah```
 | table * ``` table all fields```
-``` 
+```
 ![Rename Example 1](rename_example1.png)
 Example Usage 2 rename:
 ```spl
@@ -42,7 +19,6 @@ Example Usage 2 rename:
 ![Rename Example 2](rename_example2.png)
 
 ---
-
 # regex
 **Description:** Defines a pattern that should match a regular expression. Regular expression is very powerful and can be used to precisely match patterns that otherwise would be impossible to express in regular Splunk search terms.
 
@@ -55,9 +31,7 @@ Example Usage (this will search for string 1 and 2 sequentially regex is a massi
 | table commandline ```only table out commandline```
 ```
 ![Regex Example](commandline_example.png)
-
 ---
-
 # rex
 **Description:** The rex is one of my all-time personal favorites. You can use it to extract a value from a field into a new field—or several new fields. This can be very useful if, for instance, you are creating a detection and the regex match has potential to be in multiple fields. With a standard regex, you can only match on one field, but with rex you can extract multiple values into a single field and filter off that one field, working around the regex limitation. Rex is also field-aware, so if a field has multiple values you would like to become fields of their own, you can write the regex to account for that.
 
@@ -83,7 +57,6 @@ Example 2 (Using one rex to extract multple fields from a single string)
 
 
 ---
-
 # rex mode=sed
 **Description:** `rex mode=sed` is also very powerful and can be used to transform field results by replacing, altering, or removing characters. Unlike a normal `rex` extraction, which creates new fields, `mode=sed` modifies the existing field in place. This makes it extremely useful for cleanup, normalization, and preparing fields for correlation.
 
@@ -98,13 +71,10 @@ See the user example below.
 | eval user=coalesce(user_email,user_name) ```combine the normalized fields into the user field```
 | stats values(login_time) as login_time values(login_location) as login_location by user _time ```return the correlated values by correlated username and time```
 ```
-Not normalized/uncorelated:
 ![mode=sed uncorelated](mode_sed1.png)
-Normalized and Corelated
 ![mode=sed corelated](mode_sed2.png)
 
 ---
-
 # where
 **Description:** `where` is very useful for defining a condition that must evaluate as true for a result to be returned. Unlike basic search terms, which match raw text or field values, `where` evaluates logical expressions, comparisons, and calculations—giving you much more control over filtering.
 
@@ -138,7 +108,6 @@ spl
 ![where expression](where3.png)
 
 ---
-
 # lookup
 **Description:** `lookup` is a powerful command used to enrich events with additional context pulled from external data sources. It allows threat detection teams to attach metadata—such as user roles, asset owners, threat intelligence indicators, and standardized field mappings—to raw log data. It can also perform CIDR-based matching and ASN enrichment, which will be covered in a separate section. In short, `lookup` enhances the quality and completeness of event data by joining it with structured reference information.
 
@@ -151,99 +120,36 @@ spl
 | lookup cmdlet.csv cmdlet as command_let ```lookup that cmdlet against a list with cmdlet/description```
 | table * ```table all results```
 ```
-cmdlet's not enriched
 ![cmdlet not enriched](cmdlet1.png)
-cmdlet's enriched
 ![cmdlet enriched](cmdlet2.png)
 
----
 
+---
 # isnull/isnotnull
-**Description:** `isnull` and `isnotnull` are used to check whether a field contains a value or is empty. They are commonly used within `where` clauses to add logical filtering that standard search syntax cannot express. While you *can* check for non-null values using a basic search filter like `| search field=*`, the `isnull` and `isnotnull` functions provide more precise control when building conditional logic, especially after field extractions or aggregations.
-
-**Uses:** These functions are extremely helpful when you only want results where a particular extracted field is present—or where it is missing. For example, if you extract indicators from scriptcontent or commandline fields, you may only want events where the extraction succeeded (`isnotnull`). Conversely, there are times when you want to return only events where no match occurred. A common case is CIDR/lookup filtering: if you compare an IP address against a list or subnet and no match is found, `isnull` lets you return only the values that fall *outside* the expected ranges. This is especially useful in negative-matching detections, enrichment lookups, and correlation logic.
- 
-**Example Usage: isnotnull script/command**
-```spl
-| inputlookup mixed_logs.csv ```pull test logs```
-| rex field=commandline "(?i)(?<indicator>downloadstring)" ```extracted bad indicator out of commandline, by matching pattern```
-| rex field=scriptcontent "(?i)(?<indicator>downloadstring)"```extracted bad indicator out of scriptcontent, by matching pattern```
-| where isnotnull(indicator) ```return only results where indidcator had value```
-| table indicator scriptcontent commandline ```table out the indocator that had value with the two parsed fields```
-```
-![isnotnull logic](isnotnull.png)
-
-**Example Usage: isnull cidr negation**
-```spl
-| inputlookup waf_logs.csv ```pull waf logs```
-| lookup cidr_lookup cidr as src_ip OUTPUT cidr ```match IPs against negation ranges```
-| where isnull(cidr) ```negate results that matched a range of approved ISPs```
-```
-Note CIDR Negations require a lookup definition in Splunk Example:
-![CIDR Defintion](cidr_lookup_setup.png)
-Results without Negations for Google/CloudFlare ranges:
-![No CIDR Negation for Google/CloudFlare ranges](no_cidr_negation.png)
-Results with negation, only malicous traffic remains
-![isnull cidr negation, only malicous traffic remains](cidr_negation_google_cloudflare.png)
-
+**Description:**
+**Uses:**
+**Example Usage:**
 ---
-
 # index_earliest
-**Description:** index_earliest is different from a normal time filter like earliest=-7d because it doesn’t look at the event’s _time value at all. Instead, it filters events based on when they were actually written into the index using _indextime. This matters when logs arrive late or out of order. For example, if there’s a logging outage and seven days of old data suddenly floods into Splunk over a few hours, using index_earliest=-1h tells Splunk to only return events that physically hit the index within the last hour, regardless of their timestamp. It’s basically a guardrail against backfilled data so your searches don’t get polluted by stale events.
-
-**Uses:** The main use cases revolve around keeping your searches, dashboards, and detections focused on fresh data. It’s helpful when you want to ignore delayed or backfilled logs, stabilize analytics when an ingestion pipeline catches up, and prevent alert fatigue during reconnect storms from agents or batch-delivery systems. It keeps detections clean by ensuring they only evaluate events that have been indexed recently, which is critical for real-time monitoring environments like EDR, CloudTrail, WAF logs, syslog aggregators, and anything prone to ingestion delays.
-
+**Description:**
+**Uses:**
 **Example Usage:**
-```spl
-index=cloudtrail index_earliest=-1h
-```
-![index_earliest logic](index_earliest.png)
-
 ---
-
 # dc
-**Description:** The distinct count command `dc()` is a powerful stats function in Splunk that helps with search logic by deduplicating values inside a field and returning how many unique items exist. Instead of counting every occurrence, it strips out repeats and gives you a clean uniqueness count. This is especially useful in behavioral detection work where you want to understand the variety of actions taken, not just the total volume.
-
-**Uses:** Its use cases are broad, but a common example is detecting suspicious enumeration or discovery behavior. On their own, commands like checking account permissions, running whoami, using net.exe to enumerate AD groups, or performing a quick ICMP sweep aren’t individually alarming. However, when all of these occur together within a short window, they form a behavioral cluster that can indicate an adversary probing the environment. By using dc(commandline), you can quickly identify how many unique commands were executed, helping you distinguish between normal noise and a potentially meaningful sequence of discovery actions.
-
+**Description:**
+**Uses:**
 **Example Usage:**
-```spl
-| inputlookup cmdlet_log.csv ```get commandline logs```
-| stats values(commandline) as commandline dc(commandline) as command_count by user ```perform dc by user and command, also list off the commands via values```
-| sort - command_count ```sort the results by the count of commands, highest first```
-```
-![commandline_count logic](commandline_count.png)
-
 ---
-
 # stats
-**Description:** stats is one of the core transforming commands in Splunk and is used to aggregate, summarize, and analyze data across events. Instead of returning raw logs, it reshapes the dataset by computing values like counts, sums, averages, distinct counts, or custom calculations. It essentially lets you collapse thousands of events into meaningful metrics or groupings that are easier to interpret and act on. Because it restructures the data, stats becomes the backbone for dashboards, correlation searches, and most behavioral detections.
-
-**Uses:** Its uses are extremely broad—anything from counting authentication attempts, grouping by IP addresses or users, calculating average response times, identifying unique process executions, or summarizing network traffic patterns. In detection engineering, stats is typically used to cluster related activity together, look for patterns that only emerge when events are viewed as a whole, or surface anomalies such as unusually high volumes of actions by a user or host. It’s also useful for cleaning up noisy results by reducing multiple related events into a single analytic record.
-
+**Description:**
+**Uses:**
 **Example Usage:**
-```spl
-| inputlookup cmdlet_log.csv ```get commandline logs```
-| stats values(commandline) as commandline dc(commandline) as command_count by user ```perform dc by user and command, also list off the commands via values```
-| sort - command_count ```sort the results by the count of commands, highest first```
-```
-![commandline_count logic](commandline_count.png)
-
 ---
-
 # values
-**Description:** values() is a Splunk stats/transforming command function that returns a deduplicated list of all distinct values for a given field within the result set. This is useful when you want to collapse many events into a single row but keep the unique occurrences for reference. Unlike list(), which returns all values (including duplicates), values() ensures each value appears only once.
-**Uses:** The values() function is most useful when you need to summarize a dataset by showing only the distinct occurrences of a field without repeating duplicates. It helps reduce noise in large result sets by collapsing repeated values into a clean, deduplicated list—ideal for reviewing unique users, hosts, commands, IPs, or processes involved in an event sequence. This is especially valuable in detection engineering and dashboarding, where you want to quickly see what different things happened rather than how many times they occurred. Because it returns only unique values, values() also helps validate whether multiple variations of a field were present (e.g., different command lines or authentication types), making it a powerful tool for summarization, correlation, and reporting.
+**Description:**
+**Uses:**
 **Example Usage:**
-```spl
-| inputlookup cmdlet_log.csv ```get commandline logs```
-| stats values(commandline) as commandline dc(commandline) as command_count by user ```perform dc by user and command, also list off the commands via values```
-| sort - command_count ```sort the results by the count of commands, highest first```
-```
-![commandline_count logic](commandline_count.png)
-
 ---
-
 # bin
 **Description:**
 **Uses:**
