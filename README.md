@@ -245,9 +245,20 @@ index=cloudtrail index_earliest=-1h
 ---
 
 # bin
-**Description:**
-**Uses:**
-**Example Usage:**
+**Description:** bin is used to bucket numeric or time-based fields into fixed-size intervals. Instead of working with raw timestamps or continuous numeric values, bin rounds values down into consistent buckets so events can be grouped and analyzed together. It is most commonly used with time (_time) but can also be applied to other numeric fields like distances, counts, durations, or sizes.
+
+**Uses:** bin is extremely useful when you want to analyze behavior over consistent time windows or ranges rather than individual events. In detection engineering, this is commonly used to group activity into time slices for rate-based detections, burst analysis, or behavioral clustering. For example, you might bin authentication events into 5-minute windows to look for spikes, or bin distances to detect anomalous travel patterns. Without binning, stats and thresholds can be noisy and hard to interpret.
+
+**Example Usage:** 
+| inputlookup auth_logs.csv ```pull authentication logs```
+| bin _time span=5m ```bucket events into 5 minute intervals```
+| stats count as auth_attempts by user _time ```count auth attempts per user per time bucket```
+| where auth_attempts > 10 ```return users with more than 10 attempts in 5 minutes```
+**Example Usage 2: (binning numeric values)**
+| inputlookup login_distance.csv ```pull login distance logs```
+| bin distance_from_work span=50 ```bucket distance into 50 mile ranges```
+| stats count by distance_from_work ```count events per distance bucket```
+
 ---
 # lower/upper
 **Description:**
