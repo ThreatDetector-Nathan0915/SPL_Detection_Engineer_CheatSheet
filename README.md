@@ -273,7 +273,7 @@ index=cloudtrail index_earliest=-1h
 | eval lowercase_turned=upper(lowercase), uppercase_turned=lower(lowercase)
 | table lowercase lowercase_turned uppercase uppercase_turned
 ```
-![upper_lower logic](upper_lower.png)
+![upper_lower logic](uper_lower.png)
 ---
 # IN
 **Description:**
