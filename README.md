@@ -250,20 +250,30 @@ index=cloudtrail index_earliest=-1h
 **Uses:** bin is extremely useful when you want to analyze behavior over consistent time windows or ranges rather than individual events. In detection engineering, this is commonly used to group activity into time slices for rate-based detections, burst analysis, or behavioral clustering. For example, you might bin authentication events into 5-minute windows to look for spikes, or bin distances to detect anomalous travel patterns. Without binning, stats and thresholds can be noisy and hard to interpret.
 
 **Example Usage:** 
+```spl
 | inputlookup auth_logs.csv ```pull authentication logs```
 | bin _time span=5m ```bucket events into 5 minute intervals```
 | stats count as auth_attempts by user _time ```count auth attempts per user per time bucket```
 | where auth_attempts > 10 ```return users with more than 10 attempts in 5 minutes```
+```
 **Example Usage 2: (binning numeric values)**
+```spl
 | inputlookup login_distance.csv ```pull login distance logs```
 | bin distance_from_work span=50 ```bucket distance into 50 mile ranges```
 | stats count by distance_from_work ```count events per distance bucket```
+```
 
 ---
 # lower/upper
-**Description:**
-**Uses:**
+**Description:** upper() and lower() are string-manipulation functions used to normalize text by converting character case. upper() converts all alphabetical characters in a string to uppercase, while lower() converts them to lowercase. These functions are most often used during field normalization to ensure consistent comparisons, aggregations, and joins—especially when dealing with user input, process names, hostnames, usernames, or other fields where case variance can break logic.
+**Uses:** These functions are critical when building reliable detections and analytics in environments where case sensitivity is inconsistent across data sources. For example, usernames may appear as Nathan, NATHAN, or nathan depending on the log source. Normalizing values with lower() (or upper()) ensures accurate matching in where clauses, lookups, and joins. They are also commonly used before deduplication, correlation searches, and when enforcing naming standards in dashboards and reports. In detection engineering, this prevents missed detections caused purely by casing differences rather than actual semantic differences in behavior.
 **Example Usage:**
+```spl
+| makeresults | eval lowercase="lower_case_stuff", uppercase="UPPERCASE_STUFF"
+| eval lowercase_turned=upper(lowercase), uppercase_turned=lower(lowercase)
+| table lowercase lowercase_turned uppercase uppercase_turned
+```
+![upper_lower logic](upper_lower.png)
 ---
 # IN
 **Description:**
