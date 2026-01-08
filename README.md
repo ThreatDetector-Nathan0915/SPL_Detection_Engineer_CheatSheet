@@ -276,9 +276,17 @@ index=cloudtrail index_earliest=-1h
 ![upper_lower logic](uper_lower.PNG)
 ---
 # IN
-**Description:**
-**Uses:**
+**Description:** In Splunk, the IN command allows you to specify multiple values for a single field, with or without wildcards. This is useful when you want to match several discrete values without writing a regular expression or chaining multiple logical conditions. In simple terms, it functions like saying “give me this or that” within a specific field.
+**Uses:** You may want to identify two specific processes that can appear in the contextfilename field. In this case, we only care about WinRAR and 7-Zip, even though many other processes may be present. The following single-line SPL can be used to refine the results accordingly.
 **Example Usage:**
+```spl
+| makeresults | eval contextfilename="winrar.exe" ```create logs for winrar```
+| append [| makeresults | eval contextfilename="7zip.exe"]```create logs for 7zip```
+| append [| makeresults | eval contextfilename="explorer.exe"]```create logs for explorer```
+| search contextfilename IN ("winrar*", "7zip*")```only match the context file name that matches winrar or 7zip via IN```
+| table contextfilename```table results```
+```
+![IN logic](IN.PNG)
 ---
 # table
 **Description:**
