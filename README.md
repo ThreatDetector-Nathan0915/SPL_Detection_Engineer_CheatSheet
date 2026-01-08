@@ -289,9 +289,15 @@ index=cloudtrail index_earliest=-1h
 ![IN logic](IN.PNG)
 ---
 # table
-**Description:**
-**Uses:**
+**Description:** The table command is a basic formatting command used to display only the fields you care about. You can also use table * to display all available fields. Tables are especially useful as foundational commands for joins, or on their own to present data in a format that analysts can easily read and understand.
+**Uses:** The table command formats Splunk search results by selecting and ordering specific fields without altering the underlying data. It is used to reduce noise, improve readability, and present results in a structured, analyst-friendly format. Tables are commonly used to validate field extractions, standardize outputs for dashboards and reports, and prepare data for joins or correlation searches. In detection engineering, table acts as an infrastructure command that helps analysts quickly interpret results and ensures consistent, reliable data presentation across workflows.
 **Example Usage:**
+```spl
+| makeresults | eval lowercase="lower_case_stuff", uppercase="UPPERCASE_STUFF"
+| eval lowercase_turned=upper(lowercase), uppercase_turned=lower(lowercase)
+| table lowercase lowercase_turned uppercase uppercase_turned
+```
+![upper_lower logic](uper_lower.PNG)
 ---
 # coalesc
 **Description:**
