@@ -325,7 +325,9 @@ index=cloudtrail index_earliest=-1h
  ``` loop through each value of A. if the value IS found in B, add the value to a resulting mv field returned. ``` 
   same=mvmap(A, if(isnotnull(mvfind(B, A)), A, null))
   ```
-**Extra Reference:**https://community.splunk.com/t5/Splunk-Search/Comparing-Multivalue-Fields/m-p/551128
+
+**Extra Reference:** https://community.splunk.com/t5/Splunk-Search/Comparing-Multivalue-Fields/m-p/551128
+
   ![mvmap logic](mvmap.PNG)
 ---
 # makemv
