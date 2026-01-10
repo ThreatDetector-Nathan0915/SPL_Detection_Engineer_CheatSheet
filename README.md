@@ -267,6 +267,7 @@ index=cloudtrail index_earliest=-1h
 # lower/upper
 **Description:** upper() and lower() are string-manipulation functions used to normalize text by converting character case. upper() converts all alphabetical characters in a string to uppercase, while lower() converts them to lowercase. These functions are most often used during field normalization to ensure consistent comparisons, aggregations, and joins—especially when dealing with user input, process names, hostnames, usernames, or other fields where case variance can break logic.
 **Uses:** These functions are critical when building reliable detections and analytics in environments where case sensitivity is inconsistent across data sources. For example, usernames may appear as Nathan, NATHAN, or nathan depending on the log source. Normalizing values with lower() (or upper()) ensures accurate matching in where clauses, lookups, and joins. They are also commonly used before deduplication, correlation searches, and when enforcing naming standards in dashboards and reports. In detection engineering, this prevents missed detections caused purely by casing differences rather than actual semantic differences in behavior.
+
 **Example Usage:**
 ```spl
 | makeresults | eval lowercase="lower_case_stuff", uppercase="UPPERCASE_STUFF"
@@ -324,7 +325,7 @@ index=cloudtrail index_earliest=-1h
  ``` loop through each value of A. if the value IS found in B, add the value to a resulting mv field returned. ``` 
   same=mvmap(A, if(isnotnull(mvfind(B, A)), A, null))
   ```
-  *Extra Reference:*https://community.splunk.com/t5/Splunk-Search/Comparing-Multivalue-Fields/m-p/551128
+**Extra Reference:**https://community.splunk.com/t5/Splunk-Search/Comparing-Multivalue-Fields/m-p/551128
   ![mvmap logic](mvmap.PNG)
 ---
 # makemv
