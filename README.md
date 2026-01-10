@@ -300,14 +300,32 @@ index=cloudtrail index_earliest=-1h
 ![upper_lower logic](uper_lower.PNG)
 ---
 # coalesc
-**Description:**
-**Uses:**
+**Description:** Coalesce evaluates multiple fields and returns the first non-null value. It is commonly used to normalize data when the same information may appear in different fields across events.
+**Uses:** In detection engineering, coalesce is used to normalize inconsistent telemetry by combining multiple possible fields (such as different username or host fields) into a single standardized field, ensuring detections work reliably across diverse log sources. It also helps reduce missed detections by preventing null or missing fields from breaking detection logic, allowing alerts to trigger as long as the required data exists in any relevant field.
 **Example Usage:**
+```spl
+| makeresults | eval win_user="Administrator", edr_user=null(), cloud_user="admin@corp.com" ```creates several identity values```
+| eval normalized_user=coalesce(edr_user, win_user, cloud_user)``` fills normalized_user with the first non-null value```
+| table win_user edr_user cloud_user normalized_user ``` table results to show what happened```
+```
+![coalesce logic](coalesce.PNG)
 ---
 # mvmap
-**Description:**
-**Uses:**
+**Description:** In Splunk, mvmap lets you iterate over each value in a multivalue field and apply an expression to it, which makes it ideal for comparing two multivalue fields without needing expensive mvexpand loops. You can use mvmap together with functions like mvfind() to test whether a value from one field exists in another, effectively letting you find values that were added, values that were removed, or values that overlap between the two lists. For example, you can build lists of values unique to one multivalue field or common to both by checking for matches on each element.
+**Uses:** In detection engineering, mvmap can be used to compare multivalue fields to identify suspicious patterns such as phishing campaigns where a downloaded file name matches the sender’s domain, or cases where newly added permissions or group memberships differ from a user’s previous access list. This allows analysts to quickly spot abnormal overlaps or changes across multiple values without expanding events, making it easier to detect credential abuse, malware delivery, or unauthorized access changes.
 **Example Usage:**
+```spl
+| makeresults | eval A="a, b, c", B="z, c, e, d" | makemv delim=", " A | makemv delim=", " B
+| eval
+ ``` loop through each value of B. if the value is not found in A, add the value to a resulting mv field returned. ``` 
+  added=mvmap(B, if(isnull(mvfind(A, B)), B, null())),
+ ``` loop through each value of A. if the value is not found in B, add the value to a resulting mv field returned. ``` 
+  removed=mvmap(A, if(isnull(mvfind(B, A)), A, null())),
+ ``` loop through each value of A. if the value IS found in B, add the value to a resulting mv field returned. ``` 
+  same=mvmap(A, if(isnotnull(mvfind(B, A)), A, null))
+  ```
+  *Extra Reference:*https://community.splunk.com/t5/Splunk-Search/Comparing-Multivalue-Fields/m-p/551128
+  ![mvmap logic](mvmap.PNG)
 ---
 # makemv
 **Description:**
