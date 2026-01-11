@@ -331,7 +331,7 @@ index=cloudtrail index_earliest=-1h
   ![mvmap logic](mvmap.PNG)
 ---
 # makemv
-**Description:**
+**Description:** 
 **Uses:**
 **Example Usage:**
 ---
@@ -341,9 +341,17 @@ index=cloudtrail index_earliest=-1h
 **Example Usage:**
 ---
 # TERM
-**Description:**
-**Uses:**
-**Example Usage:**
+**Description:** term is a Splunk search command that forces Splunk to treat the thing you provide as an exact indexed term (a token from _raw) instead of letting Splunk reinterpret it, break it apart, or do broader matching. It’s mainly a performance + precision tool: when what you’re looking for is a real token in the index (like powershell.exe, -enc, Invoke-WebRequest, whoami, etc.), term can be faster and more strict than a loose search/keyword query.
+**Uses:** In detection engineering, term is useful when you want tight matching on “known-bad / known-interesting” strings in command lines, script blocks, URLs, user agents, or tool names—especially in high-volume datasets where broad keyword searches get expensive or noisy. It’s also helpful when you’re trying to avoid surprises from Splunk parsing/rewriting your search and you want “only match the literal thing that exists as a token.” Practically: use term early in the pipeline (right after index/sourcetype constraints) to cut the dataset down fast, then do your stats, bin, and thresholding.
+**Example Usage:** 
+```spl
+| makeresults | eval _raw="User ran powershell.exe -enc ZQBpAHIA", user="alice"
+| append [| makeresults | eval _raw="User ran cmd.exe /c whoami", user="bob"]
+| append [| makeresults | eval _raw="User ran powershell.exe -nop", user="charlie"]
+| search TERM(powershell.exe)
+| table user _raw
+```
+  ![term logic](mvmap.PNG)
 ---
 # head/tail
 **Description:**
